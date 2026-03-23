@@ -100,6 +100,10 @@ function renderMarkdown(text: string) {
   return elements;
 }
 
+export function generateStaticParams() {
+  return [{ slug: "privacy" }, { slug: "terms" }, { slug: "aml" }];
+}
+
 export default async function LegalPage({
   params,
 }: {
