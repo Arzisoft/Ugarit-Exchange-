@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { getBrand } from "@/lib/brand/config";
 import {
   LayoutDashboard,
   Users,
@@ -24,6 +24,7 @@ const navItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const brand = getBrand();
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
@@ -34,9 +35,9 @@ export default function AdminSidebar() {
     <aside className="fixed inset-y-0 left-0 z-30 flex w-64 flex-col border-r border-surface-border bg-forest-900">
       {/* Brand */}
       <div className="flex h-16 items-center gap-2.5 border-b border-surface-border px-5">
-        <Image
-          src="/logos/ugarit.svg"
-          alt="Ugarit Exchange"
+        <img
+          src={brand.logo}
+          alt={brand.name}
           width={32}
           height={32}
           className="h-8 w-8"

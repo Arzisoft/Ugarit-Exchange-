@@ -14,6 +14,7 @@ import {
   Settings,
   Shield,
 } from "lucide-react";
+import { getBrand } from "@/lib/brand/config";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -28,6 +29,7 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const brand = getBrand();
 
   // TODO: Replace with real auth check
   const isAdmin = true;
@@ -43,9 +45,9 @@ export default function Sidebar() {
       <aside className="hidden md:flex fixed inset-y-0 left-0 z-30 flex-col border-r border-surface-border bg-forest-900 lg:w-64 md:w-[72px]">
         {/* Brand */}
         <div className="flex h-16 items-center gap-2.5 border-b border-surface-border px-4 lg:px-5">
-          <Image
-            src="/logos/ugarit.svg"
-            alt="Ugarit Exchange"
+          <img
+            src={brand.logo}
+            alt={brand.name}
             width={32}
             height={32}
             className="h-8 w-8 shrink-0"

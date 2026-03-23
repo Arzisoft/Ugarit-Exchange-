@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { getBrand } from "@/lib/brand/config";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -15,15 +16,16 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const brand = getBrand();
 
   return (
     <nav className="sticky top-0 z-40 border-b border-surface-border bg-forest-900/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5">
-          <Image
-            src="/logos/ugarit.svg"
-            alt="Ugarit Exchange"
+          <img
+            src={brand.logo}
+            alt={brand.name}
             width={32}
             height={32}
             className="h-8 w-8"
