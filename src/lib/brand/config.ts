@@ -22,7 +22,10 @@ export type BrandConfig = {
 import { ugaritConfig } from "./ugarit";
 import { palremitConfig } from "./palremit";
 
+export const basePath = process.env.NODE_ENV === "production" ? "/Ugarit-Exchange-" : "";
+
 export function getBrand(): BrandConfig {
   const brandId = process.env.NEXT_PUBLIC_BRAND || "ugarit";
-  return brandId === "palremit" ? palremitConfig : ugaritConfig;
+  const config = brandId === "palremit" ? palremitConfig : ugaritConfig;
+  return { ...config, logo: basePath + config.logo };
 }

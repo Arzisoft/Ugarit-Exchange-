@@ -48,12 +48,12 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">
+          <Link href="/auth/login">
             <Button variant="secondary" size="sm">
               Login
             </Button>
           </Link>
-          <Link href="/signup">
+          <Link href="/auth/register">
             <Button variant="primary" size="sm">
               Sign Up
             </Button>
@@ -85,12 +85,12 @@ export default function Navbar() {
             ))}
           </div>
           <div className="mt-3 flex flex-col gap-2 border-t border-surface-border pt-3">
-            <Link href="/login" onClick={() => setMobileOpen(false)}>
+            <Link href="/auth/login" onClick={() => setMobileOpen(false)}>
               <Button variant="secondary" size="md" className="w-full">
                 Login
               </Button>
             </Link>
-            <Link href="/signup" onClick={() => setMobileOpen(false)}>
+            <Link href="/auth/register" onClick={() => setMobileOpen(false)}>
               <Button variant="primary" size="md" className="w-full">
                 Sign Up
               </Button>
