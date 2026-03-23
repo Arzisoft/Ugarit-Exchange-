@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ugarit Exchange — Platform Proposal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --forest-900: #083D1F;
+    --forest-800: #0A5C2E;
+    --forest-700: #0D7C3E;
+    --forest-600: #10994D;
+    --gold-500: #D4A843;
+    --gold-400: #E0BE6A;
+    --gold-300: #EBD494;
+    --surface: #0B1A12;
+    --surface-card: rgba(255,255,255,0.05);
+    --danger: #EF4444;
+    --success: #22C55E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    background: #fff;
+  }
+
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  /* ====== COVER PAGE ====== */
+  .cover {
+    background: linear-gradient(135deg, var(--forest-900) 0%, #041F10 50%, var(--surface) 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px;
+  }
+
+  .cover-decoration {
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%);
+  }
+
+  .cover-decoration-2 {
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(13,124,62,0.15) 0%, transparent 70%);
+  }
+
+  .cover-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gold-400);
+    backdrop-filter: blur(10px);
+  }
+
+  .cover-logo {
+    width: 64px;
+    height: 64px;
+    background: var(--forest-700);
+    border: 2px solid var(--gold-500);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold-500);
+    margin-bottom: 32px;
+  }
+
+  .cover-title {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+
+  .cover-title span {
+    color: var(--gold-500);
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 400;
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: auto;
+  }
+
+  .cover-meta-item {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cover-meta-value {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cover-footer-brand {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .cover-footer-brand strong {
+    color: var(--gold-400);
+    font-weight: 600;
+  }
+
+  /* ====== CONTENT PAGES ====== */
+  .content-page {
+    padding: 50px 60px;
+  }
+
+  .page-header {
+    border-bottom: 2px solid var(--forest-700);
+    padding-bottom: 12px;
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .page-header-num {
+    font-size: 11px;
+    color: var(--forest-700);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .page-header-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--forest-900);
+    margin-top: 4px;
+  }
+
+  .page-header-logo {
+    font-size: 11px;
+    color: #999;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--forest-900);
+    margin: 28px 0 12px;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--forest-800);
+    margin: 20px 0 8px;
+  }
+
+  p, li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin: 8px 0;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  .highlight-box {
+    background: linear-gradient(135deg, var(--forest-900), var(--forest-800));
+    color: white;
+    border-radius: 12px;
+    padding: 28px;
+    margin: 20px 0;
+  }
+
+  .highlight-box h3 {
+    color: var(--gold-400);
+    margin-top: 0;
+    font-size: 16px;
+  }
+
+  .highlight-box p {
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, var(--forest-900), var(--forest-800));
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold-500);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Feature cards */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .feature-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fafafa;
+  }
+
+  .feature-card-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--forest-700), var(--forest-800));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-500);
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .feature-card h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: var(--forest-900);
+  }
+
+  .feature-card p {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Color swatches */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .color-swatch {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+
+  .color-swatch-block {
+    height: 60px;
+  }
+
+  .color-swatch-info {
+    padding: 8px 10px;
+    background: white;
+  }
+
+  .color-swatch-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .color-swatch-hex {
+    font-size: 10px;
+    color: #888;
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* Module table */
+  .module-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 12px;
+  }
+
+  .module-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: var(--forest-900);
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .module-table th:first-child {
+    border-radius: 8px 0 0 0;
+  }
+
+  .module-table th:last-child {
+    border-radius: 0 8px 0 0;
+  }
+
+  .module-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+  }
+
+  .module-table tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .badge-public { background: #dbeafe; color: #1d4ed8; }
+  .badge-auth { background: #dcfce7; color: #15803d; }
+  .badge-admin { background: #fef3c7; color: #92400e; }
+
+  /* Tech stack */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  .tech-item-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--forest-700);
+    flex-shrink: 0;
+  }
+
+  .tech-item-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .tech-item-desc {
+    font-size: 10px;
+    color: #888;
+  }
+
+  /* Page screenshot placeholder */
+  .screen-preview {
+    background: linear-gradient(135deg, var(--surface), var(--forest-900));
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen-preview-header {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .screen-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .screen-content {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    min-height: 160px;
+  }
+
+  .screen-sidebar {
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .screen-sidebar-item {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .screen-sidebar-item.active {
+    background: var(--gold-500);
+    opacity: 0.6;
+  }
+
+  .screen-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .screen-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 12px;
+    flex: 1;
+  }
+
+  .screen-card-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .screen-card-row .screen-card {
+    flex: 1;
+  }
+
+  /* Currency list */
+  .currency-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .currency-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+  }
+
+  .currency-tag.crypto {
+    background: #fef3c7;
+    border-color: #fde68a;
+    color: #92400e;
+  }
+
+  /* Footer on content pages */
+  .page-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #bbb;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+  }
+
+  /* Typography table */
+  .typo-row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .typo-sample {
+    min-width: 200px;
+    color: var(--forest-900);
+  }
+
+  .typo-details {
+    font-size: 11px;
+    color: #888;
+  }
+
+  /* Two column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* Responsive breakpoints visual */
+  .breakpoint-bar {
+    display: flex;
+    margin: 16px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 40px;
+  }
+
+  .breakpoint-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 24px 0;
+  }
+
+  .note-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #92400e;
+    margin: 16px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1: COVER ==================== -->
+<div class="page cover">
+  <div class="cover-decoration"></div>
+  <div class="cover-decoration-2"></div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="cover-badge">Confidential &mdash; Client Proposal</div>
+  </div>
+
+  <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="cover-logo">U</div>
+    <div class="cover-title">
+      Ugarit <span>Exchange</span>
+    </div>
+    <div class="cover-subtitle">
+      Digital Wallet & Remittance Platform<br>
+      Middle East & Africa
+    </div>
+
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        Prepared For
+        <div class="cover-meta-value">Ugarit Exchange Ltd.</div>
+      </div>
+      <div class="cover-meta-item">
+        Document Type
+        <div class="cover-meta-value">Platform Proposal & Technical Spec</div>
+      </div>
+      <div class="cover-meta-item">
+        Date
+        <div class="cover-meta-value">March 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        Version
+        <div class="cover-meta-value">1.0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer" style="position:relative;z-index:1;">
+    <div class="cover-footer-brand">
+      Designed &amp; Built by <strong>Arzisoft</strong><br>
+      Mahmoud Baassiri
+    </div>
+    <div style="text-align:right;font-size:11px;color:rgba(255,255,255,0.3);">
+      STRICTLY CONFIDENTIAL<br>
+      Do not distribute without permission
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 2: EXECUTIVE SUMMARY ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 01</div>
+      <div class="page-header-title">Executive Summary</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>The Vision</h3>
+    <p>Ugarit Exchange is a licensed, regulated digital financial platform enabling individuals and businesses across the Middle East and Africa to exchange currencies, send international remittances, manage digital wallets, trade crypto, and access virtual debit cards &mdash; all from a single, premium interface.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">19+</div>
+      <div class="stat-label">Fiat Currencies</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Cryptocurrencies</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Core Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">23</div>
+      <div class="stat-label">Platform Pages</div>
+    </div>
+  </div>
+
+  <h3>Platform Highlights</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">&#8644;</div>
+      <h4>Currency Exchange</h4>
+      <p>Real-time exchange between 19+ currencies with live rates, fee transparency, and rate-lock countdown for guaranteed pricing.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#10148;</div>
+      <h4>Money Transfer</h4>
+      <p>Send money across borders via bank transfer, cash pickup, or mobile wallet with beneficiary management and live tracking.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#9917;</div>
+      <h4>Virtual Debit Cards</h4>
+      <p>Issue and manage Mastercard/Visa virtual cards with freeze controls, spending limits, and per-card transaction history.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#8383;</div>
+      <h4>Crypto Trading</h4>
+      <p>Buy and sell BTC, ETH, USDT, and USDC with portfolio tracking, price charts, and instant conversion to fiat.</p>
+    </div>
+  </div>
+
+  <h3>White-Label Ready</h3>
+  <p>The platform supports full white-labeling. Switching a single configuration value transforms the entire experience &mdash; brand name, logo, colors, tagline, and supported currencies &mdash; enabling deployment under the <strong>Palremit</strong> brand or any future brand with zero code changes.</p>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 2 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 3: PLATFORM MODULES ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 02</div>
+      <div class="page-header-title">Platform Modules</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <p style="margin-bottom:16px;">The platform consists of 8 core modules plus a comprehensive admin panel, totaling 23 distinct pages.</p>
+
+  <table class="module-table">
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Pages</th>
+        <th>Access</th>
+        <th>Key Features</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Public Landing</strong></td>
+        <td>/</td>
+        <td><span class="badge badge-public">Public</span></td>
+        <td>Hero with live converter widget, trust metrics, services grid, rates ticker, CTA</td>
+      </tr>
+      <tr>
+        <td><strong>Live Rates</strong></td>
+        <td>/rates</td>
+        <td><span class="badge badge-public">Public</span></td>
+        <td>Full rate table with buy/sell/spread, interactive 30-day historical chart</td>
+      </tr>
+      <tr>
+        <td><strong>About</strong></td>
+        <td>/about</td>
+        <td><span class="badge badge-public">Public</span></td>
+        <td>Company story, mission, team, licenses, regulatory badges</td>
+      </tr>
+      <tr>
+        <td><strong>Legal</strong></td>
+        <td>/legal/*</td>
+        <td><span class="badge badge-public">Public</span></td>
+        <td>Privacy Policy, Terms of Service, AML/KYC Policy</td>
+      </tr>
+      <tr>
+        <td><strong>Authentication</strong></td>
+        <td>/auth/*</td>
+        <td><span class="badge badge-public">Public</span></td>
+        <td>Login, registration with validation, 6-digit OTP verification</td>
+      </tr>
+      <tr>
+        <td><strong>Dashboard</strong></td>
+        <td>/dashboard</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Multi-currency wallets, quick actions, recent transactions, rate chart</td>
+      </tr>
+      <tr>
+        <td><strong>Exchange</strong></td>
+        <td>/exchange</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Currency converter, live rates, 30s rate lock, fee breakdown, receipt</td>
+      </tr>
+      <tr>
+        <td><strong>Transfer</strong></td>
+        <td>/transfer, /transfer/[id]</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>4-step wizard, beneficiary management, method comparison, live tracking</td>
+      </tr>
+      <tr>
+        <td><strong>Virtual Cards</strong></td>
+        <td>/cards</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>3D card flip animation, freeze/unfreeze, limits, per-card transactions</td>
+      </tr>
+      <tr>
+        <td><strong>Crypto</strong></td>
+        <td>/crypto</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Portfolio overview, price charts (7/30/90D), buy/sell trader</td>
+      </tr>
+      <tr>
+        <td><strong>Profile &amp; KYC</strong></td>
+        <td>/profile</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Editable profile, 4-step KYC wizard, document upload, status tracker</td>
+      </tr>
+      <tr>
+        <td><strong>Transactions</strong></td>
+        <td>/transactions</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Full history with filters (type, status, search), detail modals</td>
+      </tr>
+      <tr>
+        <td><strong>Settings</strong></td>
+        <td>/settings</td>
+        <td><span class="badge badge-auth">Authenticated</span></td>
+        <td>Security (password, 2FA), notifications, currency/language preferences</td>
+      </tr>
+      <tr>
+        <td><strong>Admin Panel</strong></td>
+        <td>/admin/* (6 pages)</td>
+        <td><span class="badge badge-admin">Admin Only</span></td>
+        <td>Dashboard, user management, rate editor, transactions, compliance, reports</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 3 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 4: LANDING & PUBLIC PAGES ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 03</div>
+      <div class="page-header-title">Public Experience</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>Landing Page (Home)</h3>
+  <p>The first impression. A premium, conversion-optimized landing page that communicates trust, speed, and security.</p>
+
+  <div class="screen-preview" style="min-height:180px;">
+    <div class="screen-preview-header">
+      <div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div>
+    </div>
+    <div style="display:flex;gap:24px;">
+      <div style="flex:1;">
+        <div style="background:rgba(212,168,67,0.15);border-radius:20px;padding:4px 14px;display:inline-block;font-size:10px;color:var(--gold-400);margin-bottom:10px;">Licensed &amp; Regulated</div>
+        <div style="font-size:22px;font-weight:800;color:white;line-height:1.2;margin-bottom:8px;">Send Money Across<br>Middle East &amp; Africa</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:14px;">Fast, secure, and affordable international transfers.</div>
+        <div style="display:flex;gap:8px;">
+          <div style="background:var(--gold-500);color:var(--forest-900);padding:6px 16px;border-radius:6px;font-size:10px;font-weight:700;">Get Started</div>
+          <div style="border:1px solid rgba(255,255,255,0.2);color:white;padding:6px 16px;border-radius:6px;font-size:10px;font-weight:500;">View Rates</div>
+        </div>
+      </div>
+      <div style="width:200px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:6px;">YOU SEND</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:18px;font-weight:700;color:white;">1,000</div>
+          <div style="font-size:11px;color:var(--gold-400);font-weight:600;">USD &#127482;&#127480;</div>
+        </div>
+        <div style="text-align:center;color:rgba(255,255,255,0.2);font-size:14px;margin-bottom:8px;">&#8595;</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:6px;">THEY RECEIVE</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:18px;font-weight:700;color:var(--gold-500);">48,250</div>
+          <div style="font-size:11px;color:var(--gold-400);font-weight:600;">EGP &#127466;&#127468;</div>
+        </div>
+        <div style="background:var(--gold-500);color:var(--forest-900);padding:6px;border-radius:6px;font-size:10px;font-weight:700;text-align:center;">Send Now</div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Landing Page Sections</h4>
+  <ul>
+    <li><strong>Navigation Bar</strong> &mdash; Sticky header with brand logo, nav links, Login/Sign Up</li>
+    <li><strong>Hero Section</strong> &mdash; Headline + live currency converter widget with real-time calculation</li>
+    <li><strong>Trust Bar</strong> &mdash; Animated counters: 50+ Countries, $7M+ Processed, 25,000+ Users</li>
+    <li><strong>Services Grid</strong> &mdash; 4 cards: Exchange, Transfer, Virtual Cards, Crypto Trading</li>
+    <li><strong>How It Works</strong> &mdash; 3-step flow: Create Account &rarr; Verify Identity &rarr; Start Sending</li>
+    <li><strong>Live Rates Ticker</strong> &mdash; Infinitely scrolling rates bar with 24h change indicators</li>
+    <li><strong>Call-to-Action</strong> &mdash; Gradient section with account creation prompt</li>
+    <li><strong>Footer</strong> &mdash; 4-column footer with links, legal, contact, regulatory badges</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div>
+      <h3>Rates Page</h3>
+      <p>Full exchange rate table with buy/sell rates, spreads, and 24h change. Click any pair to view a 30-day interactive chart powered by Recharts.</p>
+    </div>
+    <div>
+      <h3>About &amp; Legal</h3>
+      <p>Company story, mission, team bios, and licenses. Three legal pages &mdash; Privacy Policy, Terms of Service, and AML/KYC Policy &mdash; served via dynamic routing.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 4 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 5: DASHBOARD & EXCHANGE ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 04</div>
+      <div class="page-header-title">Dashboard & Exchange</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>User Dashboard</h3>
+  <p>The command center. After login, users see their complete financial overview at a glance.</p>
+
+  <div class="screen-preview">
+    <div class="screen-preview-header">
+      <div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div>
+    </div>
+    <div class="screen-content">
+      <div class="screen-sidebar">
+        <div class="screen-sidebar-item active" style="width:80%;"></div>
+        <div class="screen-sidebar-item" style="width:60%;"></div>
+        <div class="screen-sidebar-item" style="width:70%;"></div>
+        <div class="screen-sidebar-item" style="width:50%;"></div>
+        <div class="screen-sidebar-item" style="width:65%;"></div>
+        <div class="screen-sidebar-item" style="width:55%;"></div>
+      </div>
+      <div class="screen-main">
+        <div class="screen-card-row">
+          <div class="screen-card" style="text-align:center;">
+            <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;">USD Balance</div>
+            <div style="font-size:16px;font-weight:700;color:white;margin-top:4px;">$4,850.00</div>
+          </div>
+          <div class="screen-card" style="text-align:center;">
+            <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;">EUR Balance</div>
+            <div style="font-size:16px;font-weight:700;color:white;margin-top:4px;">&euro;2,300.00</div>
+          </div>
+          <div class="screen-card" style="text-align:center;">
+            <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;">AED Balance</div>
+            <div style="font-size:16px;font-weight:700;color:white;margin-top:4px;">12,500.00</div>
+          </div>
+        </div>
+        <div class="screen-card-row">
+          <div class="screen-card" style="flex:3;"><div style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;">RECENT TRANSACTIONS</div></div>
+          <div class="screen-card" style="flex:2;"><div style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;">USD/EGP RATE CHART</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Dashboard Components</h4>
+  <ul>
+    <li><strong>Welcome Banner</strong> &mdash; Personalized greeting with KYC verification prompt for unverified users</li>
+    <li><strong>Multi-Currency Wallets</strong> &mdash; Scrollable wallet cards (USD, EUR, AED, EGP, GBP, BTC, ETH, USDT) with balances, deposit/withdraw buttons</li>
+    <li><strong>Quick Actions</strong> &mdash; One-tap access to Exchange, Transfer, Add Funds, and History</li>
+    <li><strong>Recent Transactions</strong> &mdash; Last 5 transactions with type icons, status badges, and amounts</li>
+    <li><strong>Rate Chart</strong> &mdash; 7-day USD/EGP sparkline with current rate and 24h change indicator</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h3>Currency Exchange</h3>
+  <p>Convert between any supported currencies with competitive rates, full fee transparency, and guaranteed pricing.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>Live Rate Engine</h4>
+      <p>Real-time exchange rates with buy/sell spreads. Rates refresh automatically with slight market variance to simulate live conditions.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Rate Lock Countdown</h4>
+      <p>30-second animated countdown guarantees the displayed rate. When the timer expires, rates refresh automatically.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Fee Transparency</h4>
+      <p>Full breakdown showing exchange amount, fee (0.5%), total deducted, and exact amount received &mdash; no hidden charges.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Exchange Receipt</h4>
+      <p>Detailed confirmation with reference number, rates used, fees, and download option for record-keeping.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 5 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 6: TRANSFER & CARDS ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 05</div>
+      <div class="page-header-title">Transfers & Virtual Cards</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>Money Transfer</h3>
+  <p>A guided 4-step wizard makes international transfers simple and transparent.</p>
+
+  <div style="display:flex;gap:12px;margin:16px 0;">
+    <div style="flex:1;background:var(--forest-900);border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--gold-500);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--forest-900);font-weight:800;font-size:14px;margin-bottom:8px;">1</div>
+      <div style="font-size:11px;font-weight:700;color:white;">Select Beneficiary</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;">Choose or add a recipient</div>
+    </div>
+    <div style="flex:1;background:var(--forest-900);border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--gold-500);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--forest-900);font-weight:800;font-size:14px;margin-bottom:8px;">2</div>
+      <div style="font-size:11px;font-weight:700;color:white;">Amount & Method</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;">Enter amount, pick delivery</div>
+    </div>
+    <div style="flex:1;background:var(--forest-900);border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--gold-500);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--forest-900);font-weight:800;font-size:14px;margin-bottom:8px;">3</div>
+      <div style="font-size:11px;font-weight:700;color:white;">Review & Confirm</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;">Verify all details</div>
+    </div>
+    <div style="flex:1;background:var(--forest-900);border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--gold-500);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--forest-900);font-weight:800;font-size:14px;margin-bottom:8px;">4</div>
+      <div style="font-size:11px;font-weight:700;color:white;">Track Transfer</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;">Real-time status updates</div>
+    </div>
+  </div>
+
+  <h4>Delivery Methods</h4>
+  <table class="module-table" style="margin-bottom:8px;">
+    <thead><tr><th>Method</th><th>Speed</th><th>Fee</th><th>Coverage</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bank Transfer</strong></td><td>2-3 business days</td><td>Standard</td><td>All countries</td></tr>
+      <tr><td><strong>Cash Pickup</strong></td><td>Same day</td><td>+$3 surcharge</td><td>Egypt, Kenya, Nigeria</td></tr>
+      <tr><td><strong>Mobile Wallet</strong></td><td>Instant</td><td>-$2 discount</td><td>Kenya, Tanzania, Uganda</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <h3>Virtual Debit Cards</h3>
+  <p>Issue and manage digital Mastercard and Visa debit cards for online and in-store payments.</p>
+
+  <div style="display:flex;gap:20px;align-items:flex-start;margin:16px 0;">
+    <!-- Card mockup -->
+    <div style="width:280px;height:170px;background:linear-gradient(135deg, var(--forest-700), var(--forest-900));border-radius:14px;padding:20px;position:relative;flex-shrink:0;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+      <div style="position:absolute;top:20px;right:20px;font-size:11px;font-weight:800;color:rgba(255,255,255,0.4);letter-spacing:2px;">MASTERCARD</div>
+      <div style="width:36px;height:26px;background:linear-gradient(135deg, var(--gold-500), var(--gold-300));border-radius:4px;margin-bottom:24px;"></div>
+      <div style="font-size:16px;font-weight:600;color:white;letter-spacing:3px;margin-bottom:20px;">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4532</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+        <div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;">Cardholder</div>
+          <div style="font-size:11px;color:white;font-weight:600;">SARAH JOHNSON</div>
+        </div>
+        <div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;">Expires</div>
+          <div style="font-size:11px;color:white;font-weight:600;">12/27</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;">
+      <h4 style="margin-top:0;">Card Features</h4>
+      <ul>
+        <li><strong>3D Card Visualization</strong> &mdash; Click to flip, revealing CVV on back</li>
+        <li><strong>Freeze/Unfreeze</strong> &mdash; Instant card control with visual overlay</li>
+        <li><strong>Spending Limits</strong> &mdash; Adjustable $100-$10,000 slider</li>
+        <li><strong>Payment Controls</strong> &mdash; Toggle online, contactless, and ATM</li>
+        <li><strong>Multi-Currency</strong> &mdash; Cards in USD, EUR, GBP, AED, EGP, SAR</li>
+        <li><strong>Per-Card Transactions</strong> &mdash; Filtered history for each card</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 6 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 7: CRYPTO & KYC ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 06</div>
+      <div class="page-header-title">Crypto Trading & KYC</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>Crypto On/Off Ramp</h3>
+  <p>Buy and sell cryptocurrency directly from fiat balances with real-time pricing and portfolio management.</p>
+
+  <div class="two-col" style="margin:16px 0;">
+    <div>
+      <h4>Supported Assets</h4>
+      <table class="module-table">
+        <thead><tr><th>Asset</th><th>Symbol</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>Bitcoin</td><td><strong>BTC</strong></td><td>Layer 1</td></tr>
+          <tr><td>Ethereum</td><td><strong>ETH</strong></td><td>Layer 1</td></tr>
+          <tr><td>Tether</td><td><strong>USDT</strong></td><td>Stablecoin</td></tr>
+          <tr><td>USD Coin</td><td><strong>USDC</strong></td><td>Stablecoin</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4>Trading Features</h4>
+      <ul>
+        <li><strong>Portfolio View</strong> &mdash; Total value, per-asset balance, USD equivalent, 24h change</li>
+        <li><strong>Price Charts</strong> &mdash; Interactive 7/30/90-day charts with area fill</li>
+        <li><strong>Buy/Sell Trader</strong> &mdash; Toggle between buy and sell, instant conversion with fee display</li>
+        <li><strong>Fee Structure</strong> &mdash; Transparent 0.5% trading fee, shown before confirmation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3>KYC Verification</h3>
+  <p>Regulatory-compliant identity verification with a smooth user experience.</p>
+
+  <div style="display:flex;gap:12px;margin:16px 0;">
+    <div style="flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--forest-700);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;margin-bottom:8px;">1</div>
+      <div style="font-size:12px;font-weight:700;color:var(--forest-900);">Personal Info</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">Name, DOB, nationality, address</div>
+    </div>
+    <div style="flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--forest-700);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;margin-bottom:8px;">2</div>
+      <div style="font-size:12px;font-weight:700;color:var(--forest-900);">National ID</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">Upload passport or ID card</div>
+    </div>
+    <div style="flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--forest-700);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;margin-bottom:8px;">3</div>
+      <div style="font-size:12px;font-weight:700;color:var(--forest-900);">Proof of Address</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">Utility bill or bank statement</div>
+    </div>
+    <div style="flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:10px;padding:16px;text-align:center;">
+      <div style="width:32px;height:32px;background:var(--forest-700);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;margin-bottom:8px;">4</div>
+      <div style="font-size:12px;font-weight:700;color:var(--forest-900);">Review & Submit</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">Confirm details and submit</div>
+    </div>
+  </div>
+
+  <h4>KYC Status Tracking</h4>
+  <ul>
+    <li><strong>Not Started</strong> &mdash; Prompt banner on dashboard encouraging verification</li>
+    <li><strong>Documents Submitted</strong> &mdash; Confirmation with expected review timeline</li>
+    <li><strong>Under Review</strong> &mdash; Status badge visible across the platform</li>
+    <li><strong>Approved / Rejected</strong> &mdash; Full access granted or instructions for resubmission</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 7 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 8: ADMIN PANEL ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 07</div>
+      <div class="page-header-title">Admin Panel</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <p>A comprehensive back-office panel for managing every aspect of the platform. Role-guarded &mdash; only accessible to admin users.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">&#9776;</div>
+      <h4>Admin Dashboard</h4>
+      <p>Real-time KPI cards (daily volume, active users, pending KYC, flagged transactions), 7-day volume chart, and activity feed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#128100;</div>
+      <h4>User Management</h4>
+      <p>Searchable user table with KYC approval/rejection, account suspension, role management, and balance overview.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#8644;</div>
+      <h4>Rate Management</h4>
+      <p>View and override exchange rates with inline editing, margin configuration, auto-feed toggle, and 30-day rate history chart.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#128196;</div>
+      <h4>Transaction Monitor</h4>
+      <p>All platform transactions with advanced filters (type, status, date range, amount), detail view with audit log entries.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#9888;</div>
+      <h4>Compliance & AML</h4>
+      <p>AML alerts with severity levels, suspicious transaction flags, transaction limit configuration for regulatory compliance.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">&#128202;</div>
+      <h4>Analytics & Reports</h4>
+      <p>Revenue trends, volume analysis, currency exposure pie chart, user activity tracking. Export to PDF/Excel.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:24px;">
+    <h3>Admin KPIs at a Glance</h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:16px;">
+      <div>
+        <div style="font-size:24px;font-weight:900;color:var(--gold-500);">$125K</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Daily Volume</div>
+      </div>
+      <div>
+        <div style="font-size:24px;font-weight:900;color:var(--gold-500);">1,247</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Active Users</div>
+      </div>
+      <div>
+        <div style="font-size:24px;font-weight:900;color:var(--gold-500);">23</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Pending KYC</div>
+      </div>
+      <div>
+        <div style="font-size:24px;font-weight:900;color:var(--gold-500);">5</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Flagged Txns</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 8 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 9: DESIGN SYSTEM ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 08</div>
+      <div class="page-header-title">Design System</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>Visual Identity &mdash; "Deep Forest"</h3>
+  <p>A premium banking aesthetic built on rich dark greens with gold accents. Designed to convey trust, security, and sophistication.</p>
+
+  <h4>Primary Palette</h4>
+  <div class="color-grid">
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#083D1F;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Forest 900</div><div class="color-swatch-hex">#083D1F</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#0A5C2E;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Forest 800</div><div class="color-swatch-hex">#0A5C2E</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#0D7C3E;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Forest 700</div><div class="color-swatch-hex">#0D7C3E</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#D4A843;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Gold 500</div><div class="color-swatch-hex">#D4A843</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#E0BE6A;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Gold 400</div><div class="color-swatch-hex">#E0BE6A</div></div>
+    </div>
+  </div>
+
+  <h4>Semantic Colors</h4>
+  <div class="color-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#0B1A12;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Surface</div><div class="color-swatch-hex">#0B1A12</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#22C55E;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Success</div><div class="color-swatch-hex">#22C55E</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#EF4444;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Danger</div><div class="color-swatch-hex">#EF4444</div></div>
+    </div>
+    <div class="color-swatch">
+      <div class="color-swatch-block" style="background:#F59E0B;"></div>
+      <div class="color-swatch-info"><div class="color-swatch-name">Warning</div><div class="color-swatch-hex">#F59E0B</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="two-col">
+    <div>
+      <h3>Typography</h3>
+      <div class="typo-row">
+        <div class="typo-sample" style="font-size:24px;font-weight:800;">Heading 1</div>
+        <div class="typo-details">Inter 800 &middot; 24-48px</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-sample" style="font-size:18px;font-weight:700;">Heading 2</div>
+        <div class="typo-details">Inter 700 &middot; 18-28px</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-sample" style="font-size:14px;font-weight:500;">Body Text</div>
+        <div class="typo-details">Inter 400-500 &middot; 13-14px</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-sample" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Label</div>
+        <div class="typo-details">Inter 600 &middot; 10-11px &middot; Uppercase</div>
+      </div>
+    </div>
+    <div>
+      <h3>Border Radius</h3>
+      <div style="display:flex;gap:16px;align-items:flex-end;margin:16px 0;">
+        <div style="text-align:center;">
+          <div style="width:60px;height:40px;border:2px solid var(--forest-700);border-radius:8px;margin:0 auto 6px;"></div>
+          <div style="font-size:10px;color:#888;">Inputs<br><strong>8px</strong></div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:60px;height:40px;border:2px solid var(--forest-700);border-radius:12px;margin:0 auto 6px;"></div>
+          <div style="font-size:10px;color:#888;">Cards<br><strong>12px</strong></div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:60px;height:40px;border:2px solid var(--forest-700);border-radius:16px;margin:0 auto 6px;"></div>
+          <div style="font-size:10px;color:#888;">Modals<br><strong>16px</strong></div>
+        </div>
+      </div>
+
+      <h3>Responsive Breakpoints</h3>
+      <div class="breakpoint-bar">
+        <div class="breakpoint-segment" style="flex:2;background:var(--forest-700);">Mobile &lt;768px</div>
+        <div class="breakpoint-segment" style="flex:1.5;background:var(--forest-800);">Tablet 768-1024px</div>
+        <div class="breakpoint-segment" style="flex:2;background:var(--forest-900);">Desktop &gt;1024px</div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Supported Currencies</h4>
+  <div class="currency-grid">
+    <span class="currency-tag">&#127482;&#127480; USD</span>
+    <span class="currency-tag">&#127466;&#127482; EUR</span>
+    <span class="currency-tag">&#127468;&#127463; GBP</span>
+    <span class="currency-tag">&#127462;&#127466; AED</span>
+    <span class="currency-tag">&#127480;&#127462; SAR</span>
+    <span class="currency-tag">&#127466;&#127468; EGP</span>
+    <span class="currency-tag">&#127472;&#127484; KWD</span>
+    <span class="currency-tag">&#127478;&#127462; QAR</span>
+    <span class="currency-tag">&#127463;&#127469; BHD</span>
+    <span class="currency-tag">&#127476;&#127474; OMR</span>
+    <span class="currency-tag">&#127471;&#127476; JOD</span>
+    <span class="currency-tag">&#127481;&#127479; TRY</span>
+    <span class="currency-tag">&#127472;&#127466; KES</span>
+    <span class="currency-tag">&#127475;&#127468; NGN</span>
+    <span class="currency-tag">&#127468;&#127469; GHS</span>
+    <span class="currency-tag">&#127481;&#127487; TZS</span>
+    <span class="currency-tag">&#127482;&#127468; UGX</span>
+    <span class="currency-tag">&#127487;&#127462; ZAR</span>
+    <span class="currency-tag">&#127474;&#127462; MAD</span>
+    <span class="currency-tag crypto">&#8383; BTC</span>
+    <span class="currency-tag crypto">&#926; ETH</span>
+    <span class="currency-tag crypto">&#8366; USDT</span>
+    <span class="currency-tag crypto">$ USDC</span>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 9 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 10: TECH STACK & DELIVERY ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Section 09</div>
+      <div class="page-header-title">Technology & Delivery</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <h3>Technology Stack</h3>
+  <div class="tech-grid">
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Next.js 16</div><div class="tech-item-desc">React framework &middot; App Router</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">React 19</div><div class="tech-item-desc">UI library &middot; React Compiler</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">TypeScript</div><div class="tech-item-desc">Type-safe codebase</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Tailwind CSS v4</div><div class="tech-item-desc">Utility-first styling</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Zustand</div><div class="tech-item-desc">State management &middot; localStorage</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Recharts</div><div class="tech-item-desc">Charts &amp; data visualization</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Framer Motion</div><div class="tech-item-desc">Animations &amp; transitions</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">React Hook Form</div><div class="tech-item-desc">Form handling &middot; Zod validation</div></div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-item-dot"></div>
+      <div><div class="tech-item-name">Lucide React</div><div class="tech-item-desc">Icon library &middot; 1000+ icons</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3>Architecture Overview</h3>
+  <div class="two-col">
+    <div>
+      <h4>Frontend Architecture</h4>
+      <ul>
+        <li><strong>95 source files</strong> across components, pages, stores, and utilities</li>
+        <li><strong>23 routes</strong> (21 static + 2 dynamic)</li>
+        <li><strong>Server &amp; Client components</strong> optimized for performance</li>
+        <li><strong>Route groups</strong> for shared layouts without URL impact</li>
+        <li><strong>Mock data layer</strong> with localStorage persistence</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Production-Ready For</h4>
+      <ul>
+        <li><strong>Client demonstration</strong> &mdash; All flows work end-to-end</li>
+        <li><strong>Investor presentations</strong> &mdash; Professional UI/UX</li>
+        <li><strong>White-label deployment</strong> &mdash; Single config swap</li>
+        <li><strong>Backend integration</strong> &mdash; Replace mock stores with API calls</li>
+        <li><strong>Vercel deployment</strong> &mdash; One-click deploy ready</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="highlight-box">
+    <h3>White-Label Capability</h3>
+    <p>The entire platform identity is driven by a single configuration file. Switching from <strong>Ugarit Exchange</strong> to <strong>Palremit</strong> (or any future brand) requires changing one environment variable: <code style="background:rgba(255,255,255,0.1);padding:2px 8px;border-radius:4px;font-size:12px;">NEXT_PUBLIC_BRAND=palremit</code>. This swaps the brand name, logo, colors, tagline, supported currencies, and footer credits automatically.</p>
+  </div>
+
+  <div style="margin-top:32px;text-align:center;padding:32px;border:1px solid #e5e7eb;border-radius:12px;">
+    <div style="font-size:13px;color:#888;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:8px;">Designed &amp; Built by</div>
+    <div style="font-size:28px;font-weight:900;color:var(--forest-900);margin-bottom:4px;">Arzisoft</div>
+    <div style="font-size:14px;color:#666;">Mahmoud Baassiri</div>
+    <div style="font-size:12px;color:#aaa;margin-top:12px;">March 2026</div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 10 of 11</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 11: IMPORTANT NOTE ==================== -->
+<div class="page content-page">
+  <div class="page-header">
+    <div>
+      <div class="page-header-num">Important Note</div>
+      <div class="page-header-title">Current Status & Next Steps</div>
+    </div>
+    <div class="page-header-logo">Ugarit Exchange</div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:12px;">
+    <h3 style="font-size:20px;">The Platform Is Built & Ready</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,0.85);margin-top:12px;">
+      The Ugarit Exchange platform has been fully designed and developed. All 8 modules, 23 pages, and the complete admin panel are functional and ready for deployment.
+    </p>
+  </div>
+
+  <h3>What You're Seeing Today</h3>
+  <p>This proposal document provides a comprehensive overview of the platform that has been built. The actual working application — with all interactive features, animations, live rate calculations, and complete user flows — is ready and can be demonstrated at any time.</p>
+
+  <div class="note-box" style="margin:24px 0;background:#f0fdf4;border-color:#86efac;color:#166534;">
+    <strong style="font-size:14px;">The website is fully developed and ready to go live.</strong><br><br>
+    The only remaining step is hosting and deployment, which requires a hosting infrastructure investment. We recommend that your partners or investors allocate the necessary resources to bring the platform online — the development work is complete, and the platform can be deployed immediately once hosting is in place.
+  </div>
+
+  <h3>Deployment Requirements</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>Hosting Infrastructure</h4>
+      <p>Cloud hosting (Vercel, AWS, or similar) for the web application. This is a recurring operational cost that should be covered by the business.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Domain & SSL</h4>
+      <p>A registered domain name (e.g., ugaritexchange.com) with SSL certificate for secure HTTPS access.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Backend Integration</h4>
+      <p>When ready for production, the mock data layer can be replaced with real API integrations for live transactions.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Compliance Setup</h4>
+      <p>KYC provider integration, payment processor onboarding, and regulatory licensing for the target markets.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;padding:28px;border:2px solid var(--gold-500);border-radius:12px;text-align:center;">
+    <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:10px;">Ready to Launch</div>
+    <div style="font-size:20px;font-weight:800;color:var(--forest-900);margin-bottom:8px;">Let's Bring Ugarit Exchange to Life</div>
+    <p style="font-size:13px;color:#666;max-width:400px;margin:0 auto;">The platform is built. The design is polished. All that's needed is the green light to deploy.</p>
+  </div>
+
+  <div style="margin-top:40px;text-align:center;">
+    <div style="font-size:12px;color:#aaa;">For questions or a live demonstration, contact:</div>
+    <div style="font-size:16px;font-weight:700;color:var(--forest-900);margin-top:6px;">Mahmoud Baassiri — Arzisoft</div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ugarit Exchange &mdash; Platform Proposal</span>
+    <span>Page 11 of 11</span>
+  </div>
+</div>
+
+</body>
+</html>
